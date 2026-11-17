@@ -1,16 +1,18 @@
 FROM registry.fedoraproject.org/fedora:rawhide
 
 RUN dnf install -y \
+    cargo-rpm-macros \
+    rust2rpm \
     rpm-build \
     rpmdevtools \
     rpmlint \
+    fedora-review \
     copr-cli \
     cargo \
     rust \
-    zstd \
-    git \
-    tar \
     xz \
+    git-core \
+    patch \
     findutils \
     coreutils && \
     dnf clean all

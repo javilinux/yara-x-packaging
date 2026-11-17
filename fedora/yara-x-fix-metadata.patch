@@ -1,0 +1,92 @@
+diff -urN a/Cargo.toml b/Cargo.toml
+--- a/Cargo.toml	2026-11-11 16:56:31.171213368 +0100
++++ b/Cargo.toml	2026-11-17 17:42:31.396199443 +0100
+@@ -16,17 +16,13 @@
+ [workspace]
+ members = [
+     "lib",
+-    "capi",
+     "cli",
+     "fmt",
+-    "js-wasm",
+     "macros",
+     "parser",
+     "proto",
+-    "py",
+-    "ls",
+ ]
+-exclude = ["examples/custom-module"]
++exclude = ["examples/custom-module", "capi", "js-wasm", "py", "ls"]
+ resolver = "3"
+ 
+ 
+diff -urN a/cli/Cargo.toml b/cli/Cargo.toml
+--- a/cli/Cargo.toml	2026-11-11 16:56:31.182592673 +0100
++++ b/cli/Cargo.toml	2026-11-17 17:42:31.396199443 +0100
+@@ -92,5 +92,4 @@
+ assert_fs = "1.1.4"
+ predicates = { workspace = true }
+ 
+-[target.'cfg(windows)'.dependencies]
+-enable-ansi-support = "0.3.1"
++
+diff -urN a/lib/Cargo.toml b/lib/Cargo.toml
+--- a/lib/Cargo.toml	2026-11-11 16:56:31.274592526 +0100
++++ b/lib/Cargo.toml	2026-11-17 17:42:31.396199443 +0100
+@@ -226,11 +226,6 @@
+     "dep:roxmltree",
+ ]
+ 
+-# The `magic` allows recognizing file types based on the output of the
+-# Unix `file` command. This feature is disabled by default.
+-magic-module = [
+-    "dep:magic"
+-]
+ 
+ # The `math` module.
+ math-module = []
+@@ -352,7 +347,6 @@
+ md-5 = { workspace = true, optional = true, features = ["oid"] }
+ sha1 = { workspace = true, optional = true, features = ["oid"] }
+ sha2 = { workspace = true, optional = true, features = ["oid"] }
+-magic = { workspace = true, optional = true }
+ memchr = { workspace = true }
+ nom = { workspace = true, optional = true }
+ num-derive = { workspace = true }
+@@ -390,12 +384,6 @@
+     "runtime",
+ ] }
+ 
+-[target.'cfg(target_family = "wasm")'.dependencies]
+-js-sys = "0.3.90"
+-wasm-bindgen = { workspace = true }
+-# When compiling for WASM the `wasm_js` feature is needed. The dependency chain
+-# for getrandom is: dsa -> crypto-bigint -> getrandom.
+-getrandom = { workspace = true, features = ["wasm_js"] }
+ 
+ [build-dependencies]
+ anyhow = { workspace = true }
+@@ -415,7 +403,6 @@
+     "test_proto3-module",
+ ] }
+ 
+-criterion = "0.8"
+ globwalk = { workspace = true }
+ goldenfile = { workspace = true }
+ ihex = { workspace = true }
+@@ -424,14 +411,3 @@
+ yara-x-proto = { workspace = true }
+ zip = { workspace = true }
+ 
+-[[bench]]
+-name = "dex"
+-harness = false
+-
+-[[bench]]
+-name = "pe"
+-harness = false
+-
+-[[bench]]
+-name = "scanner"
+-harness = false
+\ No newline at end of file
