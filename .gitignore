@@ -1,0 +1,12 @@
+*.tar.gz
+*.tar.xz
+*.tar.zst
+*.rpm
+*.deb
+*.dsc
+*.buildinfo
+*.changes
+*.crate
+target/
+.cargo/
+*.log

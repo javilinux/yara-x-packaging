@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+export CARGO_HOME = $(CURDIR)/debian/.cargo-home
+
+ifneq (,$(wildcard /usr/lib/rust-1.97/bin/cargo))
+  export PATH := /usr/lib/rust-1.97/bin:$(PATH)
+endif
+
+CARGO := $(shell command -v cargo-1.97 || command -v cargo)
+RUSTC := $(shell command -v rustc-1.97 || command -v rustc)
+export RUSTC
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  CARGO_JOBS = -j $(NUMJOBS)
+endif
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	tar --zstd -xf vendor.tar.zst
+
+override_dh_auto_build:
+	RUSTFLAGS="-C debuginfo=2" $(CARGO) build $(CARGO_JOBS) --release --offline
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	$(CARGO) test $(CARGO_JOBS) --offline --no-fail-fast
+endif
+
+override_dh_auto_install:
+	install -Dm 0755 target/release/yr debian/yara-x/usr/bin/yr
+	install -d debian/yara-x-bash-completion/usr/share/bash-completion/completions
+	./target/release/yr completion bash > debian/yara-x-bash-completion/usr/share/bash-completion/completions/yr
+
+override_dh_auto_clean:
+	rm -rf target vendor .cargo debian/.cargo-home
+	dh_auto_clean

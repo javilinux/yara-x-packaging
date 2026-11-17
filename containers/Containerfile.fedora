@@ -1,0 +1,19 @@
+FROM registry.fedoraproject.org/fedora:rawhide
+
+RUN dnf install -y \
+    rpm-build \
+    rpmdevtools \
+    rpmlint \
+    copr-cli \
+    cargo \
+    rust \
+    zstd \
+    git \
+    tar \
+    xz \
+    findutils \
+    coreutils && \
+    dnf clean all
+
+WORKDIR /work
+CMD ["/bin/bash"]
