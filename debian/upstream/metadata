@@ -1,0 +1,7 @@
+---
+Name: YARA-X
+Bug-Database: https://github.com/VirusTotal/yara-x/issues
+Bug-Submit: https://github.com/VirusTotal/yara-x/issues/new
+Repository: https://github.com/VirusTotal/yara-x.git
+Repository-Browse: https://github.com/VirusTotal/yara-x
+Security-Contact: https://github.com/VirusTotal/yara-x/security/policy

@@ -2,8 +2,8 @@ Source: yara-x
 Section: utils
 Priority: optional
 Maintainer: Javier Ramirez <javilinux@gmail.com>
-Build-Depends: debhelper-compat (= 13), zstd, pkg-config, cargo (>= 1.78.0) | cargo-1.97, rustc (>= 1.78.0) | rustc-1.97
-Standards-Version: 4.7.0
+Build-Depends: debhelper-compat (= 13), zstd, pkgconf, cargo (>= 1.78.0) | cargo-1.97, rustc (>= 1.78.0) | rustc-1.97
+Standards-Version: 4.7.4
 Homepage: https://virustotal.github.io/yara-x/
 Rules-Requires-Root: no
 
