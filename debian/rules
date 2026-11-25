@@ -3,14 +3,6 @@
 export DH_VERBOSE = 1
 export CARGO_HOME = $(CURDIR)/debian/.cargo-home
 
-ifneq (,$(wildcard /usr/lib/rust-1.97/bin/cargo))
-  export PATH := /usr/lib/rust-1.97/bin:$(PATH)
-endif
-
-CARGO := $(shell command -v cargo-1.97 || command -v cargo)
-RUSTC := $(shell command -v rustc-1.97 || command -v rustc)
-export RUSTC
-
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   CARGO_JOBS = -j $(NUMJOBS)
@@ -20,21 +12,22 @@ endif
 	dh $@
 
 override_dh_auto_configure:
-	tar --zstd -xf vendor.tar.zst
+	mkdir -p $(CARGO_HOME)
+	printf '[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "$(CURDIR)/vendor"\n' > $(CARGO_HOME)/config.toml
 
 override_dh_auto_build:
-	RUSTFLAGS="-C debuginfo=2" $(CARGO) build $(CARGO_JOBS) --release --offline
+	CARGO_PROFILE_RELEASE_DEBUG=true CARGO_PROFILE_RELEASE_STRIP=false cargo build $(CARGO_JOBS) --release --offline --locked -p yara-x-cli
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	$(CARGO) test $(CARGO_JOBS) --offline --no-fail-fast
+	cargo test $(CARGO_JOBS) --offline --locked -p yara-x-cli -p yara-x
 endif
 
 override_dh_auto_install:
 	install -Dm 0755 target/release/yr debian/yara-x/usr/bin/yr
-	install -d debian/yara-x-bash-completion/usr/share/bash-completion/completions
-	./target/release/yr completion bash > debian/yara-x-bash-completion/usr/share/bash-completion/completions/yr
+	install -d debian/yara-x/usr/share/bash-completion/completions
+	./target/release/yr completion bash > debian/yara-x/usr/share/bash-completion/completions/yr
 
 override_dh_auto_clean:
-	rm -rf target vendor .cargo debian/.cargo-home
+	rm -rf target debian/.cargo-home
 	dh_auto_clean

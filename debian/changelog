@@ -1,6 +1,10 @@
-yara-x (1.23.0-1) unstable; urgency=medium
+yara-x (1.24.0+dfsg-1) unstable; urgency=medium
 
   * Initial release (Closes: #1154199).
-  * Include yr(1) manual page and bash-completion support.
+  * Exclude prebuilt playground WASM binary for DFSG compliance.
+  * Bundle offline Rust crate dependencies as orig-vendor MUT tarball
+    with prebuilt foreign binaries stripped.
+  * Install upstream manual pages from cli/man/*.1 and bash completion.
+  * Assisted-by: Antigravity (Gemini).
 
- -- Javier Ramirez <javilinux@gmail.com>  Thu, 19 Nov 2026 04:34:00 +0100
+ -- Javier Ramirez Molina <javilinux@gmail.com>  Tue, 24 Nov 2026 19:45:00 +0100

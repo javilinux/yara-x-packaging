@@ -1,10 +1,16 @@
 Source: yara-x
 Section: utils
 Priority: optional
-Maintainer: Javier Ramirez <javilinux@gmail.com>
-Build-Depends: debhelper-compat (= 13), zstd, pkgconf, cargo (>= 1.78.0) | cargo-1.97, rustc (>= 1.78.0) | rustc-1.97
+Maintainer: Javier Ramirez Molina <javilinux@gmail.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ cargo (>= 1.78.0),
+ pkgconf,
+ rustc (>= 1.78.0),
 Standards-Version: 4.7.4
 Homepage: https://virustotal.github.io/yara-x/
+Vcs-Browser: https://salsa.debian.org/javilinux/yara-x
+Vcs-Git: https://salsa.debian.org/javilinux/yara-x.git
 Rules-Requires-Root: no
 
 Package: yara-x
@@ -17,13 +23,3 @@ Description: malware identification and classification tool
  textual or binary patterns contained in samples. Each description
  consists of a set of strings and a Boolean expression which determines
  its logic.
-
-Package: yara-x-bash-completion
-Architecture: all
-Depends: ${misc:Depends}, yara-x, bash-completion
-Enhances: yara-x
-Description: Bash completion support for yara-x
- This package provides command-line tab completion support for the
- yara-x (yr) pattern-matching tool in Bash shells. It enables quick
- auto-completion for all CLI subcommands (scan, compile, dump, fmt,
- check) and their respective options.
