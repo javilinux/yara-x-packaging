@@ -4,7 +4,7 @@
 # Fedora Packaging Guidelines while preserving Cargo.lock integrity.
 set -euo pipefail
 
-VERSION="${1:-1.23.0}"
+VERSION="${1:-1.25.0}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC_TARBALL="${SCRIPT_DIR}/yara-x-${VERSION}.tar.gz"
 PATCH_FILE="${SCRIPT_DIR}/yara-x-fix-metadata.patch"

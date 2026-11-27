@@ -21,10 +21,11 @@ diff -urN a/Cargo.toml b/Cargo.toml
  
  
 diff -urN a/cli/Cargo.toml b/cli/Cargo.toml
---- a/cli/Cargo.toml	2026-11-11 16:56:31.182592673 +0100
-+++ b/cli/Cargo.toml	2026-11-17 17:42:31.396199443 +0100
-@@ -92,5 +92,4 @@
+--- a/cli/Cargo.toml	2026-11-26 09:25:36.000000000 +0000
++++ b/cli/Cargo.toml	2026-11-27 09:30:00.000000000 +0000
+@@ -91,6 +91,5 @@
  assert_fs = "1.1.4"
+ clap_mangen = { workspace = true }
  predicates = { workspace = true }
  
 -[target.'cfg(windows)'.dependencies]

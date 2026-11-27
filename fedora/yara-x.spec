@@ -1,7 +1,7 @@
 %bcond check 1
 
 Name:           yara-x
-Version:        1.23.0
+Version:        1.25.0
 Release:        %autorelease
 Summary:        Malware identification and classification tool
 
@@ -48,15 +48,14 @@ URL:            https://virustotal.github.io/yara-x/
 Source0:        https://github.com/VirusTotal/yara-x/archive/v%{version}/%{name}-%{version}.tar.gz
 # Bundled Rust crates are currently required because several core dependencies
 # are not yet packaged in Fedora Rawhide (most notably wasmtime 48 + Cranelift
-# workspace ~90 crates, walrus 0.27, ascii_tree, ihex, intaglio, md2, tinyzip,
-# simd_cesu8) or require pre-release versions (rsa 0.10.0-rc.19).
+# workspace ~90 crates, walrus 0.28, ascii_tree, ihex, intaglio, md2, tinyzip,
+# simd_cesu8) or require newer versions (rsa 0.10).
 #
 # To reproducibly generate %%{name}-%%{version}-vendor.tar.xz from Source0
 # (stripping prebuilt foreign Windows/WASI binary blobs), run:
 #   ./create-vendor-tarball.sh %%{version}
 Source1:        %{name}-%{version}-vendor.tar.xz
 Source2:        create-vendor-tarball.sh
-Source3:        yr.1
 
 # Restrict workspace members to crates needed for the yr CLI (excluding Python,
 # JS/WASM, C-API, and LSP subprojects), drop disabled magic-module and criterion
@@ -76,7 +75,7 @@ or binary patterns contained in samples. Each description consists of a set of
 strings and a Boolean expression which determines its logic.
 
 This package provides the yr(1) command-line interface, shell completions, and
-manual page.
+manual pages.
 
 %prep
 %autosetup -p1 -a1
@@ -95,7 +94,7 @@ mkdir -p completions
 
 %install
 install -Dpm 0755 target/rpm/yr -t %{buildroot}%{_bindir}
-install -Dpm 0644 %{SOURCE3} -t %{buildroot}%{_mandir}/man1
+install -Dpm 0644 cli/man/*.1 -t %{buildroot}%{_mandir}/man1
 install -Dpm 0644 completions/yr.bash %{buildroot}%{bash_completions_dir}/yr
 install -Dpm 0644 completions/yr.fish %{buildroot}%{fish_completions_dir}/yr.fish
 install -Dpm 0644 completions/_yr %{buildroot}%{zsh_completions_dir}/_yr
@@ -111,7 +110,7 @@ install -Dpm 0644 completions/_yr %{buildroot}%{zsh_completions_dir}/_yr
 %license cargo-vendor.txt
 %doc README.md
 %{_bindir}/yr
-%{_mandir}/man1/yr.1*
+%{_mandir}/man1/yr*.1*
 %{bash_completions_dir}/yr
 %{fish_completions_dir}/yr.fish
 %{zsh_completions_dir}/_yr
